@@ -14,8 +14,12 @@ public class ReversePolishNotation {
             } else {
                 if (!exit.empty()) {
                     if (operation.mapOperations.containsKey(expression.peek())) {
-                        exit.push(operation.mapOperations.get(expression.pop())
-                                .invoke(operation, Double.parseDouble(exit.pop()), Double.parseDouble(exit.pop())).toString());
+                        int countAgr = operation.mapOperations.get(expression.peek()).getCountOfArg();
+                        double[] arrayArg = new double[countAgr];
+                        for (int i = 0; i < countAgr; i++) {
+                            arrayArg[i] = Double.parseDouble(exit.pop());
+                        }
+                        exit.push(String.valueOf(operation.mapOperations.get(expression.pop()).calculate(arrayArg)));
                     } else {
                         //сообщение об ошибке
                     }

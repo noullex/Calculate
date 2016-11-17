@@ -1,53 +1,85 @@
 package com.company;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
+
+interface Function {
+    double calculate(double[] arg);
+
+    int getCountOfArg();
+}
 
 
 public class MathOperation {
 
-    public HashMap<String, Method> mapOperations;
-    public HashMap<String, Integer> mapCountArgsOfOperations;
+    public HashMap<String, Function> mapOperations;
 
     public MathOperation() throws Exception {
         mapOperations = new HashMap<>();
-        mapOperations.put("+", MathOperation.class.getMethod("sum", double.class, double.class));
-        mapOperations.put("-", MathOperation.class.getMethod("difference", double.class, double.class));
-        mapOperations.put("*", MathOperation.class.getMethod("composition", double.class, double.class));
-        mapOperations.put("/", MathOperation.class.getMethod("quotient", double.class, double.class));
-        mapOperations.put("sin", MathOperation.class.getMethod("sin", double.class));
-        mapOperations.put("cos", MathOperation.class.getMethod("cos", double.class));
+        mapOperations.put("+", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return arg[0] + arg[1];
+            }
 
-        mapCountArgsOfOperations = new HashMap<>();
-        mapCountArgsOfOperations.put("+", 2);
-        mapCountArgsOfOperations.put("-", 2);
-        mapCountArgsOfOperations.put("*", 2);
-        mapCountArgsOfOperations.put("/", 2);
-        mapCountArgsOfOperations.put("sin", 1);
-        mapCountArgsOfOperations.put("cos", 1);
-    }
+            @Override
+            public int getCountOfArg() {
+                return 2;
+            }
+        });
+        mapOperations.put("-", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return arg[1] - arg[0];
+            }
 
-    public double sum(double a, double b) {
-        return a + b;
-    }
+            @Override
+            public int getCountOfArg() {
+                return 2;
+            }
+        });
+        mapOperations.put("*", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return arg[0] * arg[1];
+            }
 
-    public double difference(double a, double b) {
-        return b - a;
-    }
+            @Override
+            public int getCountOfArg() {
+                return 2;
+            }
+        });
+        mapOperations.put("/", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return arg[1] / arg[0];
+            }
 
-    public double composition(double a, double b) {
-        return a * b;
-    }
+            @Override
+            public int getCountOfArg() {
+                return 2;
+            }
+        });
+        mapOperations.put("sin", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return Math.sin(arg[0]);
+            }
 
-    public double quotient(double a, double b) {
-        return b / a;
-    }
+            @Override
+            public int getCountOfArg() {
+                return 1;
+            }
+        });
+        mapOperations.put("cos", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return Math.cos(arg[0]);
+            }
 
-    public double sin(double a) {
-        return Math.sin(a);
-    }
-
-    public double cos(double a) {
-        return Math.cos(a);
+            @Override
+            public int getCountOfArg() {
+                return 1;
+            }
+        });
     }
 }
