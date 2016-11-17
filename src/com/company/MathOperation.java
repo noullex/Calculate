@@ -30,7 +30,7 @@ public class MathOperation {
 
             @Override
             public int getPriority() {
-                return 0;
+                return 1;
             }
         });
         mapOperations.put(")", new Function() {
@@ -62,7 +62,7 @@ public class MathOperation {
 
             @Override
             public int getPriority() {
-                return 1;
+                return 2;
             }
         });
         mapOperations.put("-", new Function() {
@@ -78,7 +78,7 @@ public class MathOperation {
 
             @Override
             public int getPriority() {
-                return 1;
+                return 2;
             }
         });
         mapOperations.put("*", new Function() {
@@ -94,7 +94,7 @@ public class MathOperation {
 
             @Override
             public int getPriority() {
-                return 2;
+                return 3;
             }
         });
         mapOperations.put("/", new Function() {
@@ -110,7 +110,7 @@ public class MathOperation {
 
             @Override
             public int getPriority() {
-                return 2;
+                return 3;
             }
         });
         mapOperations.put("sin", new Function() {

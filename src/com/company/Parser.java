@@ -23,37 +23,28 @@ public class Parser {
                         exitStack.push(symb);
                     }
                     symb = "";
-                    if (expression[i].matches("[()]")) {
-                        if (expression[i].equals("(")) {
-                            operatorStack.push(expression[i]);
-                        } else {
-                            if (operatorStack.contains("(")) {
-                                while (operatorStack.size() != 1) {
-                                    exitStack.push(operatorStack.pop());
-                                }
-                                operatorStack.clear();
-                            } else {
-                                System.out.print("Недопустимая операция в выражении! Вызов справки: -h");
-                            }
-                        }
-                    } else {
-                        if (operation.mapOperations.containsKey(expression[i])) {
-                            if (!operatorStack.empty()) {
-                                if (operation.mapOperations.get(operatorStack.peek()).getPriority() >
-                                        operation.mapOperations.get(expression[i]).getPriority()) {
-                                    while (!operatorStack.empty()) {
+                    if (operation.mapOperations.containsKey(expression[i])) {
+                        if (!operatorStack.empty()) {
+                            if (operation.mapOperations.get(operatorStack.peek()).getPriority() >
+                                    operation.mapOperations.get(expression[i]).getPriority()) {
+                                while (!operatorStack.empty()) {
+                                    if (!operatorStack.peek().equals("(")) {
                                         exitStack.push(operatorStack.pop());
+                                    } else {
+                                        operatorStack.pop();
                                     }
-                                    operatorStack.push(expression[i]);
-                                } else {
+                                }
+                                if (!expression[i].equals(")")) {
                                     operatorStack.push(expression[i]);
                                 }
                             } else {
                                 operatorStack.push(expression[i]);
                             }
                         } else {
-                            System.out.print("Недопустимая операция в выражении! Вызов справки: -h");
+                            operatorStack.push(expression[i]);
                         }
+                    } else {
+                        System.out.print("Недопустимая операция в выражении! Вызов справки: -h");
                     }
                 }
             }
