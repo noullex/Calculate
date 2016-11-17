@@ -17,6 +17,38 @@ public class MathOperation {
 
     public MathOperation() {
         mapOperations = new HashMap<>();
+        mapOperations.put("(", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return 0;
+            }
+
+            @Override
+            public int getCountOfArg() {
+                return 0;
+            }
+
+            @Override
+            public int getPriority() {
+                return 0;
+            }
+        });
+        mapOperations.put(")", new Function() {
+            @Override
+            public double calculate(double[] arg) {
+                return 0;
+            }
+
+            @Override
+            public int getCountOfArg() {
+                return 0;
+            }
+
+            @Override
+            public int getPriority() {
+                return 0;
+            }
+        });
         mapOperations.put("+", new Function() {
             @Override
             public double calculate(double[] arg) {

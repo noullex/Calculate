@@ -8,8 +8,9 @@ public class ReversePolishNotation {
         Stack<String> expression = reverseStack(inputStack);
         Stack<String> exit = new Stack<>();
         MathOperation operation = new MathOperation();
+
         while (!expression.empty()) {
-            if ((expression.peek()).matches("[0-9]*")) {
+            if (isDouble(expression.peek())) {
                 exit.push(expression.pop());
             } else {
                 if (operation.mapOperations.containsKey(expression.peek())) {
@@ -22,7 +23,7 @@ public class ReversePolishNotation {
                 }
             }
         }
-        System.out.print("Result: " + exit.pop());
+        System.out.print(exit.pop());
     }
 
     private Stack<String> reverseStack(Stack<String> inputStack) {
@@ -31,5 +32,14 @@ public class ReversePolishNotation {
             expression.push(inputStack.pop());
         }
         return expression;
+    }
+
+    private boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
