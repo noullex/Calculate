@@ -6,6 +6,8 @@ interface Function {
     double calculate(double[] arg);
 
     int getCountOfArg();
+
+    int getPriority();
 }
 
 
@@ -25,6 +27,11 @@ public class MathOperation {
             public int getCountOfArg() {
                 return 2;
             }
+
+            @Override
+            public int getPriority() {
+                return 1;
+            }
         });
         mapOperations.put("-", new Function() {
             @Override
@@ -36,6 +43,11 @@ public class MathOperation {
             public int getCountOfArg() {
                 return 2;
             }
+
+            @Override
+            public int getPriority() {
+                return 1;
+            }
         });
         mapOperations.put("*", new Function() {
             @Override
@@ -45,6 +57,11 @@ public class MathOperation {
 
             @Override
             public int getCountOfArg() {
+                return 2;
+            }
+
+            @Override
+            public int getPriority() {
                 return 2;
             }
         });
@@ -58,6 +75,11 @@ public class MathOperation {
             public int getCountOfArg() {
                 return 2;
             }
+
+            @Override
+            public int getPriority() {
+                return 2;
+            }
         });
         mapOperations.put("sin", new Function() {
             @Override
@@ -69,6 +91,11 @@ public class MathOperation {
             public int getCountOfArg() {
                 return 1;
             }
+
+            @Override
+            public int getPriority() {
+                return 3;
+            }
         });
         mapOperations.put("cos", new Function() {
             @Override
@@ -79,6 +106,11 @@ public class MathOperation {
             @Override
             public int getCountOfArg() {
                 return 1;
+            }
+
+            @Override
+            public int getPriority() {
+                return 3;
             }
         });
     }

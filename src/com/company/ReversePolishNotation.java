@@ -12,21 +12,17 @@ public class ReversePolishNotation {
             if ((expression.peek()).matches("[0-9]*")) {
                 exit.push(expression.pop());
             } else {
-                if (!exit.empty()) {
-                    if (operation.mapOperations.containsKey(expression.peek())) {
-                        int countAgr = operation.mapOperations.get(expression.peek()).getCountOfArg();
-                        double[] arrayArg = new double[countAgr];
-                        for (int i = 0; i < countAgr; i++) {
-                            arrayArg[i] = Double.parseDouble(exit.pop());
-                        }
-                        exit.push(String.valueOf(operation.mapOperations.get(expression.pop()).calculate(arrayArg)));
-                    } else {
-                        //сообщение об ошибке
+                if (operation.mapOperations.containsKey(expression.peek())) {
+                    int countAgr = operation.mapOperations.get(expression.peek()).getCountOfArg();
+                    double[] arrayArg = new double[countAgr];
+                    for (int i = 0; i < countAgr; i++) {
+                        arrayArg[i] = Double.parseDouble(exit.pop());
                     }
+                    exit.push(String.valueOf(operation.mapOperations.get(expression.pop()).calculate(arrayArg)));
                 }
             }
         }
-        System.out.print("Result" + exit.pop());
+        System.out.print("Result: " + exit.pop());
     }
 
     private Stack<String> reverseStack(Stack<String> inputStack) {

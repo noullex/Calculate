@@ -1,15 +1,14 @@
 package com.company;
 
-import java.util.HashMap;
 import java.util.Stack;
 
 public class Parser {
 
     public Stack<String> parseExpression(String inputExpression) {
-        HashMap<String, Integer> operatorPriority = fillPriorityMap();
         Stack<String> exitStack = new Stack<>();
         Stack<String> operatorStack = new Stack<>();
         String[] expression = inputExpression.split("(?<=\\G.{1})");
+        MathOperation operation = new MathOperation();
         String symb = "";
 
         //добавить возможность распознавания double
@@ -19,10 +18,13 @@ public class Parser {
             } else {
                 exitStack.push(symb);
                 symb = "";
-                if (operatorPriority.containsKey(expression[i])) {
+                if (operation.mapOperations.containsKey(expression[i])) {
                     if (!operatorStack.empty()) {
-                        if (operatorPriority.get(operatorStack.peek()) > operatorPriority.get(expression[i])) {
-                            exitStack.push(operatorStack.pop());
+                        if (operation.mapOperations.get(operatorStack.peek()).getPriority() >
+                                operation.mapOperations.get(expression[i]).getPriority()) {
+                            while (!operatorStack.empty()) {
+                                exitStack.push(operatorStack.pop());
+                            }
                             operatorStack.push(expression[i]);
                         } else {
                             operatorStack.push(expression[i]);
@@ -42,16 +44,5 @@ public class Parser {
             exitStack.push(operatorStack.pop());
         }
         return exitStack;
-    }
-
-    public HashMap<String, Integer> fillPriorityMap() {
-        HashMap<String, Integer> operatorPriority = new HashMap<>();
-        operatorPriority.put("+", 1);
-        operatorPriority.put("-", 1);
-        operatorPriority.put("*", 2);
-        operatorPriority.put("/", 2);
-        operatorPriority.put("sin", 3);
-        operatorPriority.put("cos", 3);
-        return operatorPriority;
     }
 }
