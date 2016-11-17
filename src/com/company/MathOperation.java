@@ -13,7 +13,7 @@ public class MathOperation {
 
     public HashMap<String, Function> mapOperations;
 
-    public MathOperation() throws Exception {
+    public MathOperation() {
         mapOperations = new HashMap<>();
         mapOperations.put("+", new Function() {
             @Override

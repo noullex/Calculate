@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class ReversePolishNotation {
 
-    public void calculate(Stack<String> inputStack) throws Exception {
+    public void calculate(Stack<String> inputStack) {
         Stack<String> expression = reverseStack(inputStack);
         Stack<String> exit = new Stack<>();
         MathOperation operation = new MathOperation();
