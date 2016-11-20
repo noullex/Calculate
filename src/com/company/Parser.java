@@ -44,7 +44,7 @@ public class Parser {
                             operatorStack.push(expression[i]);
                         }
                     } else {
-                        System.out.print("Недопустимая операция в выражении! Вызов справки: -h");
+                        System.out.print("Недопустимая операция!");
                     }
                 }
             }

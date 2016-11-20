@@ -1,17 +1,25 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
         Parser p = new Parser();
         ReversePolishNotation rpn = new ReversePolishNotation();
-        System.out.print("5*3+7-10/2+3 = ");
-        rpn.calculate(p.parseExpression("5*3+7-10/2+3"));
-        System.out.print("\n23E-1+0.7 = ");
-        rpn.calculate(p.parseExpression("23E-1+0.7"));
-        System.out.print("\n200e1/5 = ");
-        rpn.calculate(p.parseExpression("200e1/5"));
-        System.out.print("\n(2+2)*2 = ");
-        rpn.calculate(p.parseExpression("(2+2)*2"));
+        File f = new File("info.txt");
+        try (FileReader reader = new FileReader(f)) {
+            char[] buffer = new char[(int) f.length()];
+            reader.read(buffer);
+            System.out.println(new String(buffer));
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        Scanner scanner = new Scanner(System.in);
+        String expression = scanner.next();
+        rpn.calculate(p.parseExpression(expression));
     }
 }
