@@ -8,18 +8,29 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Parser p = new Parser();
-        ReversePolishNotation rpn = new ReversePolishNotation();
-        /*File f = new File("info.txt");
+        File f = new File("info.txt");
+        String helpInfo = "";
         try (FileReader reader = new FileReader(f)) {
             char[] buffer = new char[(int) f.length()];
             reader.read(buffer);
-            System.out.println(new String(buffer));
+            helpInfo = new String(buffer);
+            System.out.println(helpInfo);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+            System.exit(0);
         }
-        Scanner scanner = new Scanner(System.in);
-        String expression = scanner.next();*/
-        rpn.calculate(p.parseExpression("(6+10-4)/(1+1*2)+1"));
+
+        ReversePolishNotation rpn = new ReversePolishNotation();
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            String expression = scanner.next();
+            if (expression.equals("-q")) {
+                System.exit(0);
+            } else if (expression.equals("-h")) {
+                System.out.print(helpInfo);
+            } else {
+                rpn.calculate(expression);
+            }
+        }
     }
 }

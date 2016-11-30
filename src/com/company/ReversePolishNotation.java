@@ -5,8 +5,9 @@ import java.util.Stack;
 
 public class ReversePolishNotation {
 
-    public void calculate(Stack<String> inputStack) {
-        Stack<String> expression = reverseStack(inputStack);
+    public void calculate(String inputExpresion) {
+        Parser parser = new Parser();
+        Stack<String> expression = reverseStack(parser.parseExpression(inputExpresion));
         Stack<String> exit = new Stack<>();
         MathOperation operation = new MathOperation();
         boolean ok = true;
@@ -32,8 +33,9 @@ public class ReversePolishNotation {
             }
         }
         if (ok) {
-            System.out.print("Результат:" + exit.pop());
+            System.out.print("Результат:" + exit.pop() + "\n");
         }
+        parser.clearResource();
     }
 
     private Stack<String> reverseStack(Stack<String> inputStack) {
