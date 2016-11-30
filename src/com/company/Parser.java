@@ -2,6 +2,10 @@ package com.company;
 
 import java.util.*;
 
+import static com.company.TypeToken.*;
+
+enum TypeToken { DIGHT, LETTER, SYMBOL}
+
 public class Parser {
 
     private int index = 0;
@@ -14,15 +18,15 @@ public class Parser {
         char[] expression = inputExpression.toCharArray();
 
         while (index < expression.length) {
-            int type = getTypeToken(expression[index]);
+            TypeToken type = getTypeToken(expression[index]);
             switch (type) {
-                case 1:
+                case DIGHT:
                     getNumberValue(expression);
                     break;
-                case 2:
+                case LETTER:
                     getStringOperationValue(expression);
                     break;
-                case 3:
+                case SYMBOL:
                     getSymbolOperationValue(expression);
                     break;
             }
@@ -33,13 +37,13 @@ public class Parser {
         return exitStack;
     }
 
-    private int getTypeToken(char c) {
+    private TypeToken getTypeToken(char c) {
         if (Character.isDigit(c)) {
-            return 1;
+            return DIGHT;
         } else if (Character.isLetter(c)) {
-            return 2;
+            return LETTER;
         } else {
-            return 3;
+            return SYMBOL;
         }
     }
 
