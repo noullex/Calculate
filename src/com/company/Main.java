@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         Parser p = new Parser();
         ReversePolishNotation rpn = new ReversePolishNotation();
-        File f = new File("info.txt");
+        /*File f = new File("info.txt");
         try (FileReader reader = new FileReader(f)) {
             char[] buffer = new char[(int) f.length()];
             reader.read(buffer);
@@ -19,7 +19,7 @@ public class Main {
             System.out.println(ex.getMessage());
         }
         Scanner scanner = new Scanner(System.in);
-        String expression = scanner.next();
-        rpn.calculate(p.parseExpression(expression));
+        String expression = scanner.next();*/
+        rpn.calculate(p.parseExpression("(6+10-4)/(1+1*2)+1"));
     }
 }

@@ -30,7 +30,7 @@ public class MathOperation {
 
             @Override
             public int getPriority() {
-                return 1;
+                return 0;
             }
         });
         mapOperations.put(")", new Function() {

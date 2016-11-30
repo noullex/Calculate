@@ -1,60 +1,107 @@
 package com.company;
 
-import java.util.Stack;
+import java.util.*;
 
 public class Parser {
 
     public Stack<String> parseExpression(String inputExpression) {
-        Stack<String> exitStack = new Stack<>();
-        Stack<String> operatorStack = new Stack<>();
+        inputExpression.replace(" ", "");
+        inputExpression.replace(",", ".");
+        char[] expression = inputExpression.toCharArray();
+
         MathOperation operation = new MathOperation();
-        String symb = "";
+        Stack<String> exitStack = new Stack<>();
+        Stack<String> operationsStack = new Stack<>();
+        ArrayList<Character> sub_expresion = new ArrayList<>();
 
-        String[] expression = inputExpression.split("(?<=\\G.{1})");
+        int index = 0;
+        while (index < expression.length) {
+            int type = getTypeToken(expression[index]);
+            switch (type) {
+                case 1:
+                    boolean ok = true;
 
-        for (int i = 0; i < expression.length; i++) {
-            if (expression[i].matches("[0-9.Ee]")) {
-                symb += expression[i];
-            } else {
-                if (expression[i].matches("[+-]") && i != 0 && expression[i - 1].matches("[eE]")) {
-                    symb += expression[i];
-                } else {
-                    if (symb != "") {
-                        exitStack.push(symb);
-                    }
-                    symb = "";
-                    if (operation.mapOperations.containsKey(expression[i])) {
-                        if (!operatorStack.empty()) {
-                            if (operation.mapOperations.get(operatorStack.peek()).getPriority() >
-                                    operation.mapOperations.get(expression[i]).getPriority()) {
-                                while (!operatorStack.empty()) {
-                                    if (!operatorStack.peek().equals("(")) {
-                                        exitStack.push(operatorStack.pop());
-                                    } else {
-                                        operatorStack.pop();
-                                    }
-                                }
-                                if (!expression[i].equals(")")) {
-                                    operatorStack.push(expression[i]);
-                                }
+                    while (index < expression.length &&
+                            (Character.isDigit(expression[index]) || String.valueOf(expression[index]).matches("[.eE+-]"))) {
+                        if (String.valueOf(expression[index]).matches("[+-]")) {
+                            if (String.valueOf(expression[index - 1]).matches("[eE]")) {
+                                ok = true;
                             } else {
-                                operatorStack.push(expression[i]);
+                                ok = false;
+                            }
+                        }
+                        if (ok) {
+                            sub_expresion.add(expression[index]);
+                            index++;
+                        } else {
+                            break;
+                        }
+                    }
+                    try {
+                        String str = sub_expresion.stream().map(e -> e.toString()).reduce((acc, e) -> acc + e).get();
+                        sub_expresion.clear();
+                        Double.parseDouble(str);
+                        exitStack.push(str);
+                    } catch (Exception e) {
+                        System.out.print("Недопустимая операция.");
+                        System.exit(0);
+                    }
+                    break;
+                case 2:
+                    while (index < expression.length && Character.isLetter(expression[index])) {
+                        sub_expresion.add(expression[index]);
+                        index++;
+                    }
+                    String str = String.valueOf(sub_expresion);
+                    if (operation.mapOperations.containsKey(str)) {
+                        operationsStack.push(str);
+                    } else {
+                        System.out.print("Недопустимая операция.");
+                        System.exit(0);
+                    }
+                    break;
+                case 3:
+                    String op = String.valueOf(expression[index]);
+                    if (operation.mapOperations.containsKey(op)) {
+                        if (!operationsStack.empty()) {
+                            if (op.equals(")")) {
+                                while (!operationsStack.peek().equals("(")) {
+                                    exitStack.push(operationsStack.pop());
+                                }
+                                operationsStack.pop();
+                            } else {
+                                if (operation.mapOperations.get(operationsStack.peek()).getPriority() >=
+                                        operation.mapOperations.get(op).getPriority() && !op.equals("(")) {
+                                    exitStack.push(operationsStack.pop());
+                                    operationsStack.push(op);
+                                } else {
+                                    operationsStack.push(op);
+                                }
                             }
                         } else {
-                            operatorStack.push(expression[i]);
+                            operationsStack.push(op);
                         }
                     } else {
-                        System.out.print("Недопустимая операция!");
+                        System.out.print("Недопустимая операция.");
+                        System.exit(0);
                     }
-                }
+                    index++;
+                    break;
             }
         }
-        if (symb != "") {
-            exitStack.push(symb);
-        }
-        while (!operatorStack.empty()) {
-            exitStack.push(operatorStack.pop());
+        while (!operationsStack.empty()) {
+            exitStack.push(operationsStack.pop());
         }
         return exitStack;
+    }
+
+    private int getTypeToken(char c) {
+        if (Character.isDigit(c)) {
+            return 1;
+        } else if (Character.isLetter(c)) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 }
